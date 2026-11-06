@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ResQLink | Emergency Responder Network & Pager Ecosystem</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-dark">
+  <div id="app" class="app-layout">
+    <!-- Top Tactical Status Bar -->
+    <header class="top-bar">
+      <div class="brand">
+        <div class="brand-logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">ResQLink</span>
+          <span class="brand-sub">TACTICAL OPS NETWORK</span>
+        </div>
+      </div>
+
+      <!-- Quick Status Indicators -->
+      <div class="top-status-pills">
+        <div class="status-pill status-online">
+          <span class="dot"></span>
+          <span class="label">NET: ONLINE</span>
+        </div>
+        <div class="status-pill status-mesh">
+          <span class="dot"></span>
+          <span class="label">PAGER MESH: 915MHz</span>
+        </div>
+        <div class="status-pill status-role" id="currentUserRolePill">
+          <span class="dot"></span>
+          <span class="label">CHIEF JENKINS (IC)</span>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <!-- SOS Quick Action -->
+        <button class="btn btn-emergency-sos" id="globalSosBtn" title="Trigger Instant Emergency SOS">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+          EMERGENCY SOS
+        </button>
+        <button class="btn btn-outline" id="themeToggleBtn" title="Toggle Theme">
+          <span id="themeIcon">☀️</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Container: Sidebar + Content -->
+    <div class="main-body">
+      <!-- Responsive Sidebar (Desktop & Tablet) -->
+      <nav class="sidebar" id="sidebar">
+        <div class="nav-section-title">COMMAND NAVIGATION</div>
+        <ul class="nav-menu">
+          <li class="nav-item active" data-section="home">
+            <span class="nav-icon">📰</span>
+            <span class="nav-label">Home Feed</span>
+            <span class="badge" id="feedBadge">3</span>
+          </li>
+          <li class="nav-item" data-section="network">
+            <span class="nav-icon">👥</span>
+            <span class="nav-label">Responder Network</span>
+            <span class="badge badge-teal" id="networkBadge">5</span>
+          </li>
+          <li class="nav-item" data-section="incidents">
+            <span class="nav-icon">🏛️</span>
+            <span class="nav-label">Incident Rooms</span>
+            <span class="badge badge-orange" id="incidentBadge">2</span>
+          </li>
+          <li class="nav-item" data-section="messages">
+            <span class="nav-icon">💬</span>
+            <span class="nav-label">Tactical Comms</span>
+            <span class="badge" id="messageBadge">1</span>
+          </li>
+          <li class="nav-item" data-section="pagers">
+            <span class="nav-icon">📟</span>
+            <span class="nav-label">Pager Devices</span>
+            <span class="badge badge-green" id="pagerBadge">5</span>
+          </li>
+          <li class="nav-item" data-section="notifications">
+            <span class="nav-icon">🔔</span>
+            <span class="nav-label">Notifications</span>
+            <span class="badge badge-red" id="notifBadge">3</span>
+          </li>
+          <li class="nav-item" data-section="profile">
+            <span class="nav-icon">🛡️</span>
+            <span class="nav-label">Profile & Credentials</span>
+          </li>
+        </ul>
+
+        <div class="sidebar-footer">
+          <div class="user-brief">
+            <img id="sidebarUserAvatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="avatar">
+            <div class="user-details">
+              <span class="name" id="sidebarUserName">Sarah Jenkins</span>
+              <span class="rank" id="sidebarUserRank">Battalion Chief • IC-9402</span>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Main Content Area -->
+      <main class="content-viewport" id="contentViewport">
+        <!-- Sections will dynamically render here -->
+        <div id="sectionContainer"></div>
+      </main>
+    </div>
+
+    <!-- Responsive Mobile Bottom Navigation Bar -->
+    <nav class="mobile-bottom-bar" id="mobileBottomBar">
+      <button class="mobile-nav-btn active" data-section="home">
+        <span class="icon">📰</span>
+        <span class="txt">Home</span>
+      </button>
+      <button class="mobile-nav-btn" data-section="network">
+        <span class="icon">👥</span>
+        <span class="txt">Network</span>
+      </button>
+      <button class="mobile-nav-btn" data-section="incidents">
+        <span class="icon">🏛️</span>
+        <span class="txt">Incidents</span>
+      </button>
+      <button class="mobile-nav-btn" data-section="pagers">
+        <span class="icon">📟</span>
+        <span class="txt">Pagers</span>
+      </button>
+      <button class="mobile-nav-btn" data-section="messages">
+        <span class="icon">💬</span>
+        <span class="txt">Comms</span>
+      </button>
+      <button class="mobile-nav-btn" data-section="profile">
+        <span class="icon">🛡️</span>
+        <span class="txt">Profile</span>
+      </button>
+    </nav>
+
+    <!-- Global Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Modals Container -->
+    <div id="modalOverlay" class="modal-overlay hidden">
+      <div class="modal-card" id="modalCard">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
+

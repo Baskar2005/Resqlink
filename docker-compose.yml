@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: resqlink-tactical-api
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+      - MONGODB_URI=mongodb://mongodb:27017/resqlink
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=resqlink-production-tactical-key-2026
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - resqlink-net
+
+  mongodb:
+    image: mongo:7.0
+    container_name: resqlink-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - resqlink-net
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: resqlink-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - resqlink-net
+
+volumes:
+  mongo-data:
+
+networks:
+  resqlink-net:
+    driver: bridge
+
