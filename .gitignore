@@ -12,6 +12,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 server.log
+push_to_github.bat
 *.log
 
 # Environment variables
